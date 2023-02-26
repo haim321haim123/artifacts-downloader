@@ -95,8 +95,15 @@ tasks.register<Sync>("syncToLocalMaven") {
     includeEmptyDirs = false
 }
 
-val outputPackge: String = artifactsToDownload.joinToString(separator="_") {
+var outputPackge: String = artifactsToDownload.joinToString(separator="_") {
     "${it.name}_${it.version ?: "latest"}"
+}
+
+val maxLen = 64 - 5 - 4
+outputPackge = if (outputPackge.length > (maxLen)) {
+    outputPackge.substring(1..maxLen)
+} else {
+    outputPackge
 }
 
 tasks.register<Tar>("packageLocalRepository") {

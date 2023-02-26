@@ -110,20 +110,11 @@ tasks.register<Tar>("packageLocalRepository") {
     baseName = outputPackge
 }
 
-
-fun outputStreamOf(path: String): OutputStream {
-    val f = File(path)
-    f.createNewFile()
-    return f.outputStream()
-}
-
-
 tasks.register<Exec>("encodeToBase64") {
     dependsOn("packageLocalRepository")
 
     val pkgTask = tasks.getByPath("packageLocalRepository") as Tar
     val targzPath = pkgTask.archiveFile.get().asFile.absolutePath
 
-    standardOutput = outputStreamOf(path="$targzPath.txt")
-    commandLine = listOf("base64", targzPath)
+    commandLine = listOf("bash", "-c", "base64 $targzPath > $targzPath.txt")
 }

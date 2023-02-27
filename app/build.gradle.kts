@@ -99,12 +99,11 @@ var outputPackge: String = artifactsToDownload.joinToString(separator="_") {
     "${it.name}_${it.version ?: "latest"}"
 }
 
-val maxLen = 64 - 5 - 4
-outputPackge = if (outputPackge.length > (maxLen)) {
-    outputPackge.substring(1..maxLen)
-} else {
-    outputPackge
-}
+val maxFilenameLenOnWindows = 64
+val tarGzExtensionLen = 5
+val txtExtensionLen = 4
+val maxLen = maxFilenameLenOnWindows - tarGzExtensionLen - txtExtensionLen
+outputPackge = outputPackge.substring(1..maxLen)
 
 tasks.register<Tar>("packageLocalRepository") {
     dependsOn("syncToLocalMaven")

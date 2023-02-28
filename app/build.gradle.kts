@@ -103,7 +103,7 @@ val maxFilenameLenOnWindows = 64
 val tarGzExtensionLen = 5
 val txtExtensionLen = 4
 val maxLen = maxFilenameLenOnWindows - tarGzExtensionLen - txtExtensionLen
-outputPackge = outputPackge.substring(1..maxLen)
+outputPackge = outputPackge.substring(0..maxLen)
 
 tasks.register<Tar>("packageLocalRepository") {
     dependsOn("syncToLocalMaven")
